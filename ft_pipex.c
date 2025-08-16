@@ -46,6 +46,9 @@
 	exc[k] = NULL;
 	return (exc);
 }*/
+
+
+// just deneme
 static size_t	ft_str_len(char const *s, size_t start, char c)
 {
 	size_t	len;
