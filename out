@@ -1,0 +1,10 @@
+Makefile
+a.out
+broken_functions.c
+ft_pipex.c
+ft_pipex.h
+libft
+out
+pipe_examples.c
+pipex.a
+readme.txt

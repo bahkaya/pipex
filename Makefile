@@ -70,6 +70,7 @@ OBJECTS =./libft/ft_atoi.o       \
 			./libft/ft_tolower.o    \
 			./libft/ft_toupper.o
 
+
 all: $(NAME)
 
 $(NAME): $(OBJECTS)
