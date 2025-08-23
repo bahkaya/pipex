@@ -1,27 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe_examples.c                                    :+:      :+:    :+:   */
+/*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/16 12:56:54 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/08/21 18:20:09 by bahkaya          ###   ########.fr       */
+/*   Created: 2025/08/21 15:12:53 by bahkaya           #+#    #+#             */
+/*   Updated: 2025/08/21 18:20:48 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
-
 char	*ft_command_location(char const *av, char **envp)
 {
 	char	*path;
 	char	*path_location;
 	char	*command;
 	size_t i;
+	size_t k;
+
+	k = 0;
 	i = 0;
-	while (envp[i] != ft_strnstr(envp, "PATH=/", ft_strlen(envp[i])))
-		i++;
-	i = 0;
+
+	while()
 	while (av[i] != '\0' && av[i] != ' ')
 		i++;
 	command = ft_substr(av, 0, i);
@@ -42,54 +43,4 @@ int main(int ac, char const *av[], char **envp)
 	char **execute_2;
 	command_2 = ft_command_location(av[3], envp);
 	execute_2 = ft_split(av[3], ' ');
-		
-	if (pipe(fd) == -1)
-	{
-		return (1);
-	}
-	int id = fork();
-	if (id == 0)
-	{
-		close(fd[0]);
-		int infile = open(av[1], O_RDONLY, 0666);
-		dup2(infile , STDIN_FILENO);
-		dup2(fd[1] , STDOUT_FILENO);
-		close(infile);
-		close(fd[1]);
-		execve(command, execute, NULL);
-	}
-
-	if (id != 0)
-	{
-		id2 = fork();
-	}
-	if (id2 == 0)
-	{
-		close(fd[1]);
-		int file = open(av[4], O_CREAT | O_WRONLY | O_TRUNC , 0666);
-		dup2(fd[0] , STDIN_FILENO);
-		dup2(file , STDOUT_FILENO);
-		close(fd[0]);
-		close(file);
-		execve(command_2, execute_2, NULL);
-	}
-	{
-		
-		int i;
-	
-		i = 0;
-		while(execute[i] != NULL || execute_2[i] != NULL)
-		{
-			free(execute[i]);
-			free(execute_2[i]);
-			i++;
-		}
-		free(execute);
-		free(execute_2);
-		free(command);
-		free(command_2);
-		close(fd[0]);
-		close(fd[1]);
-	}
-	return 0;
 }

@@ -33,7 +33,8 @@ SOURCE =    ./libft/ft_atoi.c       \
 			./libft/ft_strtrim.c    \
 			./libft/ft_substr.c     \
 			./libft/ft_tolower.c    \
-			./libft/ft_toupper.c
+			./libft/ft_toupper.c	\
+			parser.c
 
 OBJECTS =./libft/ft_atoi.o       \
 			./libft/ft_bzero.o      \
@@ -68,7 +69,8 @@ OBJECTS =./libft/ft_atoi.o       \
 			./libft/ft_strtrim.o    \
 			./libft/ft_substr.o     \
 			./libft/ft_tolower.o    \
-			./libft/ft_toupper.o
+			./libft/ft_toupper.o	\
+			parser.o
 
 
 all: $(NAME)
@@ -85,5 +87,3 @@ re: fclean all
 
 comp:
 	@cc $(CFLAGS) parser.c pipex.a
-run:comp
-	@./a.out

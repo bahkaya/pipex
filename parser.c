@@ -6,7 +6,7 @@
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/21 15:50:22 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/08/23 14:00:02 by bahkaya          ###   ########.fr       */
+/*   Updated: 2025/08/23 15:55:32 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,49 +15,74 @@ void	ft_free_str(char *str)
 {
 	free(str);
 }
-char	*ft_command_location(char const *av, char **envp)
+void	ft_free_split(char **arr, size_t k)
 {
-	char	**path;
-	char	*path_location;
+	while (arr[k] != NULL)
+	{
+		free(arr[k]);
+		k++;
+	}
+	free(arr);
+}
+char	*ft_find_command(char const *av)
+{
 	char	*command;
 	char	*command_parsed;
-	size_t i;
-	size_t k;
-
-	k = 0;
-	i = 0;
+	int		i;
 	
+	i = 0;
 	while (av[i] != '\0' && av[i] != ' ')
 		i++;
 	command = ft_substr(av, 0, i);
-	while(envp[i] != NULL && ft_strnstr(envp[i], "PATH=", 5) == NULL)
-		i++;
-	path = ft_split(envp[i], ':');
+	command_parsed = ft_strjoin("/", command);
+	free(command);
+	return (command_parsed);
+}
+char	*ft_find_path_location(char **path, char *command_parsed)
+{
+	char	*path_location;
+	int		i;
+	size_t	k;
+
+	i = 0;
+	k = 0;
 	while (path[k] != NULL)
 	{
-		command_parsed = ft_strjoin("/", command);
 		path_location = ft_strjoin(path[k], command_parsed);
-		
 		i = access(path_location, F_OK);
 		if (i == 0)
 		{
-			free(path);
+			ft_free_str(command_parsed);
+			ft_free_split(path, k);
 			return (path_location);
 		}
 		else if (i < 0)
 		{
-			free(path);
+			free(path[k]);
 			free(path_location);
 		}
 		k++;
 	}
-	i = 0;
 	return (NULL);
 }
-
-int main(int ac, char **av, char **envp)
+char	*ft_command_location(char const *av, char **envp)
 {
-	char *path;
-	path = ft_command_location(av[2], envp);
-	printf("%s\n", path);
+	char	**path;
+	char	*path_location;
+	char	*command_parsed;
+
+	int i;
+	size_t k;
+
+	k = 0;
+	i = 0;
+	command_parsed = ft_find_command(av);
+	i = 0;
+	while(envp[i] != NULL && ft_strnstr(envp[i], "PATH=", 5) == NULL)
+		i++;
+	path = ft_split(envp[i], ':');
+	path_location = ft_find_path_location(path, command_parsed);
+	if (!path_location)
+		return (NULL);
+	return (path_location);
 }

@@ -71,3 +71,21 @@ char	**ft_exc_update(char const **command_to_exc, int ac)
 	}
 	return (path);
 }*/
+
+char	*ft_command_location(char const *av, char **envp)
+{
+	char	*path;
+	char	*path_location;
+	char	*command;
+	size_t i;
+	i = 0;
+	while (envp[i] != ft_strnstr(envp, "PATH=/", ft_strlen(envp[i])))
+		i++;
+	i = 0;
+	while (av[i] != '\0' && av[i] != ' ')
+		i++;
+	command = ft_substr(av, 0, i);
+	path_location = ft_strjoin(path, command);
+	free (command);
+	return (path_location);
+}
