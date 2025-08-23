@@ -82,3 +82,8 @@ fclean: $(OBJECTS)
 	@rm -rf $(OBJECTS) $(NAME)
 re: fclean all
 .PHONY: all clean fclean re
+
+comp:
+	@cc $(CFLAGS) parser.c pipex.a
+run:comp
+	@./a.out
