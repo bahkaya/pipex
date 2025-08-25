@@ -34,7 +34,8 @@ SOURCE =    ./libft/ft_atoi.c       \
 			./libft/ft_substr.c     \
 			./libft/ft_tolower.c    \
 			./libft/ft_toupper.c	\
-			parser.c
+			parser.c				\
+			pipes.c
 
 OBJECTS =./libft/ft_atoi.o       \
 			./libft/ft_bzero.o      \
@@ -70,7 +71,8 @@ OBJECTS =./libft/ft_atoi.o       \
 			./libft/ft_substr.o     \
 			./libft/ft_tolower.o    \
 			./libft/ft_toupper.o	\
-			parser.o
+			parser.o				\
+			pipes.o
 
 
 all: $(NAME)

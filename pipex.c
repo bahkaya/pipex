@@ -6,7 +6,7 @@
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 12:56:54 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/08/23 16:08:19 by bahkaya          ###   ########.fr       */
+/*   Updated: 2025/08/25 16:38:50 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,43 +47,33 @@
 }*/
 int main(int ac, char const *av[], char **envp)
 {
-	int fd[2];
-	char *command;
+	char *path;
 	char **execute;
-	char *command_2;
-	char **execute_2;
-	int id2;
-	command = ft_command_location(av[2], envp);
-	command_2 = ft_command_location(av[3], envp);
-	execute = ft_split(av[2], ' ');
-	execute_2 = ft_split(av[3], ' ');
-	/*while (ac >= 1)
-	{
-		ft_exc_and_write()
-	}*/
-		
-	if (pipe(fd) == -1)
-	{
-		return (1);
-	}
+	int i;
 	
-	{
-		
-		int i;
+	i = 2;
 	
-		i = 0;
-		while(execute[i] != NULL || execute_2[i] != NULL)
-		{
-			free(execute[i]);
-			free(execute_2[i]);
-			i++;
-		}
-		free(execute);
-		free(execute_2);
-		free(command);
-		free(command_2);
-		close(fd[0]);
-		close(fd[1]);
-	}
-	return 0;
+		int fd[2];
+	int id;
+	int prev_fd;
+	ft_first_pipe(av, envp, ac, i);
 }
+		/*while (i < ac - 2)
+		{
+			path = ft_command_location(av[i], envp);
+			execute = ft_split (av[i], ' ');
+					printf("%s\n%s\n%s\n", "after parse ", path, execute[i]);
+			id = fork();
+			if (id == 0 && i == 2)
+			{
+				ft_first_pipe(path, execute, av[1], envp, fd);
+				printf("%s\n", "while loop in child ");
+			}
+			else if (id != 0 && i == ac - 1)
+			{
+				id = fork();
+				ft_last_pipe(path, execute, av[4], envp, fd);
+						printf("%s\n", "while loop in child ");
+			}
+			i++;
+		}*/
