@@ -6,7 +6,7 @@
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/16 12:56:54 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/08/25 16:38:50 by bahkaya          ###   ########.fr       */
+/*   Updated: 2025/08/25 18:57:51 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,14 @@
 }*/
 int main(int ac, char const *av[], char **envp)
 {
-	char *path;
-	char **execute;
-	int i;
-	
-	i = 2;
-	
-		int fd[2];
-	int id;
-	int prev_fd;
-	ft_first_pipe(av, envp, ac, i);
+	int infile;
+	int outfile;
+
+	infile = open(av[1], O_RDONLY, 0644);
+	outfile = open(av[ac - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if ((infile == -1 || outfile == -1))
+		return (NULL);
+	ft_pipe_exc(av, envp, ac, infile, outfile);
 }
 		/*while (i < ac - 2)
 		{

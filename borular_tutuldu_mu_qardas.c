@@ -1,26 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipes.c                                            :+:      :+:    :+:   */
+/*   borular_tutuldu_mu_qardas.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/25 13:02:44 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/08/25 19:02:42 by bahkaya          ###   ########.fr       */
+/*   Created: 2025/08/25 17:27:11 by bahkaya           #+#    #+#             */
+/*   Updated: 2025/08/25 19:05:28 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
-void	ft_pipe_exc(char const **av, char **envp, int ac, int infile, int outfile)
+int main(int ac, char **av)
 {
-	int i;
 	int fd[2];
-
-	i = 2;
-	while(i <= ac - 2)  // loop over commands
+	int i;
+	i = 1;
+	int file;
+	ssize_t k;
+	if (ac > 1)
 	{
-		pipe(fd)
-		if (i == 2)
-		{
-			dup2()
+		file = open("pipex.c", O_RDONLY, 0644);
+		char *p = "/usr/bin/ls";
+		char **exc = {"ls", NULL};
+		dup2(STD, )
+		
+		
+
+		return (0);
 	}
+	else return(0);
+}
