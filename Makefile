@@ -79,8 +79,9 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@ar rcs -o $(NAME) $(OBJECTS)
-
-clean:
+x:
+	clear
+clean: x
 	@rm -rf $(OBJECTS)
 fclean: $(OBJECTS)
 	@rm -rf $(OBJECTS) $(NAME)
@@ -88,4 +89,6 @@ re: fclean all
 .PHONY: all clean fclean re
 
 comp:
-	@cc $(CFLAGS) parser.c pipex.a
+	@cc $(CFLAGS) pipex.c pipex.a
+run: comp
+	@./a.out readme.txt cat  "grep exit" "ls -la" "tr a-z A-Z" deneme.txt
