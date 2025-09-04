@@ -79,15 +79,15 @@ all: $(NAME)
 
 $(NAME): $(OBJECTS)
 	@ar rcs -o $(NAME) $(OBJECTS)
-x:
-	clear
-clean: x
+	cc $(CFLAGS) pipex.c $(NAME) -o pipex
+clean:
 	@rm -rf $(OBJECTS)
 fclean: $(OBJECTS)
-	@rm -rf $(OBJECTS) $(NAME)
+	@rm -rf $(OBJECTS) $(NAME) pipex
 re: fclean all
-.PHONY: all clean fclean re
-
+.PHONY: all clean fclean re bonus
+bonus:
+	
 comp:
 	@cc $(CFLAGS) -g3 pipex.c pipex.a
 run: comp

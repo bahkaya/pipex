@@ -1,0 +1,41 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   pipex_bonus.h                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/04 15:30:22 by bahkaya           #+#    #+#             */
+/*   Updated: 2025/09/04 15:32:48 by bahkaya          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+# ifndef PIPEX_BONUS
+#define PIPEX_BONUS
+
+#include "./libft/libft.h"
+#include <unistd.h>
+#include <errno.h>
+#include <stdio.h>
+#include <fcntl.h>
+#include <sys/wait.h>
+struct pipes_func
+{
+	int fd[2];
+	int temp;
+	int id;
+	int infile;
+	int outfile;
+	char **execute;
+	char *path;
+};
+
+
+void	ft_free_str(char *str);
+void	ft_free_split(char **arr, size_t k);
+char	*ft_find_command(char const *av);
+char	*ft_command_location(char const *av, char **envp);
+char	*ft_find_path_location(char **path, char *command_parsed);
+void	ft_pipe_exc(char const **av, char **envp, int ac);
+
+#endif

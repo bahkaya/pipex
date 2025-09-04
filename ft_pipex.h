@@ -19,17 +19,6 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/wait.h>
-struct pipes_func
-{
-	int fd[2];
-	int temp;
-	int id;
-	int infile;
-	int outfile;
-	char **execute;
-	char *path;
-};
-
 
 void	ft_free_str(char *str);
 void	ft_free_split(char **arr, size_t k);
