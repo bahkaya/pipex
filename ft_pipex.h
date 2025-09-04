@@ -19,12 +19,23 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include <sys/wait.h>
+struct pipes_func
+{
+	int fd[2];
+	int temp;
+	int id;
+	int infile;
+	int outfile;
+	char **execute;
+	char *path;
+};
+
 
 void	ft_free_str(char *str);
 void	ft_free_split(char **arr, size_t k);
 char	*ft_find_command(char const *av);
 char	*ft_command_location(char const *av, char **envp);
 char	*ft_find_path_location(char **path, char *command_parsed);
-void	ft_pipe_exc(char const **av, char **envp, int ac, int infile, int outfile);
+void	ft_pipe_exc(char const **av, char **envp, int ac);
 
 #endif

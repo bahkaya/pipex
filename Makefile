@@ -89,6 +89,6 @@ re: fclean all
 .PHONY: all clean fclean re
 
 comp:
-	@cc $(CFLAGS) pipex.c pipex.a
+	@cc $(CFLAGS) -g3 pipex.c pipex.a
 run: comp
-	@./a.out readme.txt cat  "grep exit" "ls -la" "tr a-z A-Z" deneme.txt
+	@./a.out readme.txt cat  "grep exit"  "tr a-z A-Z" deneme.txt

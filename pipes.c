@@ -6,53 +6,76 @@
 /*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/25 13:02:44 by bahkaya           #+#    #+#             */
-/*   Updated: 2025/08/27 17:59:00 by bahkaya          ###   ########.fr       */
+/*   Updated: 2025/09/04 15:10:24 by bahkaya          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_pipex.h"
-void	ft_pipe_exc(char const **av, char **envp, int ac, int infile, int outfile)
+
+void	ft_first_pipe(int *fd, int infile)
 {
-	int fd[2];
-	int temp;
-	int id;
-	int i;
+	close(fd[0]);
+	dup2(infile, STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+}
+
+void	ft_middle_pipe(int temp, int *fd)
+{
+	dup2(temp, STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+}
+
+void	ft_last_pipe(int temp, int outfile, int *fd)
+{
+	close(fd[1]);
+	dup2(temp, STDIN_FILENO);
+	dup2(outfile, STDOUT_FILENO);
+}
+
+void	ft_function(int i, int *fd, char **envp, char const **av)
+{
+	int					k;
+	struct pipes_func	ft;
+
+	ft.infile = open(av[1], O_RDONLY, 0644);
+	k = 0;
+	while (av[k] != NULL)
+		k++;
+	ft.outfile = open(av[k - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (i == 2)
+		ft_first_pipe(fd, ft.infile);
+	if (i != 2 && i != k - 2)
+		ft_middle_pipe(ft.temp, fd);
+	if (i == k - 2)
+		ft_last_pipe(ft.temp, ft.outfile, fd);
+	if (access(av[i], F_OK | X_OK) == 0)
+	{
+		ft.execute = ft_split(av[i], ' ');
+		execve(av[i], ft.execute, envp);
+	}
+	ft.path = ft_command_location(av[i], envp);
+	ft.execute = ft_split(av[i], ' ');
+	execve(ft.path, ft.execute, envp);
+	exit(EXIT_SUCCESS);
+}
+
+void	ft_pipe_exc(char const **av, char **envp, int ac)
+{
+	int					i;
+	struct pipes_func	ft;
+
 	i = 2;
-	// second pipe doesn't get connected with previous pipe
-	// loop over commands
-		char	*path;
-		char	**execute;
-		
-		while (i < ac - 1)
+	while (i < ac -1)
+	{
+		pipe(ft.fd);
+		ft.id = fork();
+		if (ft.id == 0)
 		{
-			pipe(fd);
-			id = fork();
-			if (id == 0)
-			{
-				if (i == 2)
-				{
-					close(fd[0]);
-					dup2(infile, STDIN_FILENO);
-					dup2(fd[1], STDOUT_FILENO);
-					
-				}
-				if (i != 2 && i != ac - 2)
-				{
-					dup2(temp , STDIN_FILENO);
-					dup2(fd[1], STDOUT_FILENO);
-				}
-				if (i == ac - 2)
-				{
-					dup2(temp, STDIN_FILENO);
-					dup2(outfile, STDOUT_FILENO);
-				}
-				path = ft_command_location(av[i], envp);
-				execute = ft_split(av[i], ' ');
-				execve(path, execute, envp);
-				exit(EXIT_SUCCESS);
-			}
-			close(fd[1]);
-			temp = fd[0];
+			ft_function(i, ft.fd, envp, av);
+			wait(&ft.id);
+		}
+		close(ft.fd[1]);
+		ft.temp = ft.fd[0];
 		i++;
 	}
 }
