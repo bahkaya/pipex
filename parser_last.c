@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bahkaya <bahkaya@student.42istanbul.com    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/21 15:50:22 by bahkaya           #+#    #+#             */
+/*   Updated: 2025/09/11 15:57:57 by bahkaya          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "pipex.h"
+
+static void	ft_free_str(char *str)
+{
+	free(str);
+}
+
+static void	ft_free_split(char **arr, size_t k)
+{
+	while (arr[k] != NULL)
+	{
+		free(arr[k]);
+		k++;
+	}
+	free(arr);
+}
+
+static char	*ft_find_command(char const *av)
+{
+	char	*command;
+	char	*command_parsed;
+	int		i;
+
+	i = 0;
+	if (access(av, F_OK | X_OK) == 0)
+		return (ft_strdup(av));
+	while (av[i] != '\0' && av[i] != ' ')
+		i++;
+	command = ft_substr(av, 0, i);
+	command_parsed = ft_strjoin("/", command);
+	free(command);
+	return (command_parsed);
+}
+
+static char	*ft_find_path_location(char **path, char *command_parsed)
+{
+	char	*path_location;
+	int		i;
+	size_t	k;
+
+	i = 0;
+	k = 0;
+	while (path[k] != NULL)
+	{
+		path_location = ft_strjoin(path[k], command_parsed);
+		i = access(path_location, F_OK);
+		if (i == 0)
+		{
+			ft_free_str(command_parsed);
+			ft_free_split(path, k);
+			return (path_location);
+		}
+		else if (i < 0)
+		{
+			free(path[k]);
+			free(path_location);
+		}
+		k++;
+	}
+	return (NULL);
+}
